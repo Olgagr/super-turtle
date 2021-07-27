@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <canvas
+    width="500"
+    height="500"
+    style="border: 1px solid red"
+    #canvas
+  ></canvas>
+  <img
+    #hero=""
+    class="hero"
+    src="../../assets//hero2.png"
+    alt="cursor"
+    [width]="drawingService.heroDimentions.w"
+    [height]="drawingService.heroDimentions.h"
+  />
+</div>
+<button (click)="onClick()">Commands</button>
