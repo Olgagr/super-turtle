@@ -28,8 +28,6 @@ export class DrawingService {
     color: number[]
   } = {mode: PEN_MODE.ON, width: 1, color: [0,0,0]}
 
-  constructor() {}
-
   public init(
     canvas: ElementRef<HTMLCanvasElement>,
     heroImage: ElementRef<HTMLImageElement>
@@ -43,6 +41,8 @@ export class DrawingService {
   }
 
   public refresh(commands: EditorOutput) {
+    if (!this.canvas) return;
+    this.resetCanvasState();
     commands.forEach((command) => {
       switch (command[0]) {
         case INTERPRETER_COMMANDS.CENTER:
@@ -178,6 +178,12 @@ export class DrawingService {
       this.heroImage.width,
       this.heroImage.height
     );
+  }
+
+  private resetCanvasState() {
+    this.clearCanvas();
+    this.moveHeroTo(this.heroAtCenterPoint);
+    this.rotateHero(-1 * this.heroState.degree);
   }
 
   private clearCanvas() {

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { INTERPRETER_COMMANDS } from 'src/interfaces/interpreter-commands.interface';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { EditorOutput } from 'src/interfaces/editor-output.interface';
 import { DrawingService } from '../drawing.service';
 
 @Component({
@@ -9,6 +9,12 @@ import { DrawingService } from '../drawing.service';
   providers: [DrawingService],
 })
 export class CanvasComponent implements AfterViewInit {
+  @Input()
+  set instructions(v: EditorOutput | null) {
+    if (!v) return;
+    this.drawingService.refresh(v)
+  }
+
   @ViewChild('canvas')
   private canvas!: ElementRef<HTMLCanvasElement>;
 
@@ -19,23 +25,5 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.drawingService.init(this.canvas, this.heroImage);
-  }
-
-  onClick() {
-    this.drawingService.refresh([
-      [INTERPRETER_COMMANDS.PEN_WIDTH, [3]],
-      [INTERPRETER_COMMANDS.DIRECTION, [45]],
-      [INTERPRETER_COMMANDS.FORWARD, [100]],
-      [INTERPRETER_COMMANDS.DIRECTION, [45]],
-      [INTERPRETER_COMMANDS.FORWARD, [100]],
-      [INTERPRETER_COMMANDS.DIRECTION, [-90]],
-      [INTERPRETER_COMMANDS.FORWARD, [50]],
-      [INTERPRETER_COMMANDS.PEN_WIDTH, [1]],
-      [INTERPRETER_COMMANDS.DIRECTION, [-90]],
-      [INTERPRETER_COMMANDS.FORWARD, [150]],
-      [INTERPRETER_COMMANDS.TURN_RIGHT, [45]],
-      [INTERPRETER_COMMANDS.FORWARD, [150]],
-      [INTERPRETER_COMMANDS.GO, [300, 245]],
-    ]);
   }
 }

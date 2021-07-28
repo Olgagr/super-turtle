@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InstructionsStoreService } from '../instructions-store.service';
 
 @Component({
   selector: 'app-renderer',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RendererComponent implements OnInit {
 
-  constructor() { }
+  constructor(public instructionsStoreService: InstructionsStoreService) { }
 
   ngOnInit(): void {
   }
