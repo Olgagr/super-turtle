@@ -1,2 +1,8 @@
-<app-editor></app-editor>
-<app-canvas [instructions]="instructionsStoreService.instructions$ | async"></app-canvas>
+<main class="main-wrapper">
+  <article class="">
+    <app-editor></app-editor>
+  </article>
+  <article class="">
+    <app-canvas [instructions]="instructionsStoreService.instructions$ | async"></app-canvas>
+  </article>
+</main>

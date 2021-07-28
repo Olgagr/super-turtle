@@ -1,10 +1,15 @@
 .wrapper {
   position: relative;
+  overflow: hidden;
+}
+
+.canvas {
+  border: 1px solid #d8ddf2;
+  border-radius: 2px;
 }
 
 .hero {
   position: absolute;
   top: 0;
   left: 0;
-  // transition: all 0.5s;
 }

@@ -87,19 +87,9 @@ export class DrawingService {
 
   private render() {
     this.clearCanvas();
-    this.setupHero();
-  }
-
-  private setupHero() {
-    this.heroImage.onload = this.onHeroImageLoaded.bind(this);
-    // this.heroImage.src = './../../assets/hero.png';
-  }
-
-  private onHeroImageLoaded() {
     this.moveHeroTo(this.heroAtCenterPoint);
-    // this.drawHeroAt(this.heroAtCenterPoint);
     this.heroState.origin = this.heroAtCenterPoint;
-    return null;
+    console.log(this.heroAtCenterPoint)
   }
 
   private moveHeroTo(point: Partial<Point>) {
@@ -137,47 +127,6 @@ export class DrawingService {
   private rotateHero(degree: number) {
     this.heroState.degree += degree;
     this.heroImage.style.transform = `rotate(${this.heroState.degree}deg)`;
-    // this.rotateAndPaintImage(
-    //   this.ctx,
-    //   this.heroImage,
-    //   (degree * Math.PI) / 180,
-    //   this.heroState.origin.x + this.heroImage.width / 2,
-    //   this.heroState.origin.y + this.heroImage.height / 2,
-    //   this.heroImage.width / 2,
-    //   this.heroImage.height / 2
-    // );
-  }
-
-  private rotateAndPaintImage(
-    context: any,
-    image: any,
-    angleInRad: any,
-    positionX: any,
-    positionY: any,
-    axisX: any,
-    axisY: any
-  ) {
-    context.translate(positionX, positionY);
-    context.rotate(angleInRad);
-    context.drawImage(
-      image,
-      -axisX,
-      -axisY,
-      this.heroImage.width,
-      this.heroImage.height
-    );
-    context.rotate(-angleInRad);
-    context.translate(-positionX, -positionY);
-  }
-
-  private drawHeroAt({ x, y }: Point) {
-    this.ctx.drawImage(
-      this.heroImage,
-      x,
-      y,
-      this.heroImage.width,
-      this.heroImage.height
-    );
   }
 
   private resetCanvasState() {
@@ -187,13 +136,14 @@ export class DrawingService {
   }
 
   private clearCanvas() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = 'rgb(255, 255, 255)';
+    this.ctx.fillRect(0 ,0, this.canvas.offsetWidth, this.canvas.offsetHeight);
   }
 
   private get heroAtCenterPoint(): Point {
     return {
-      x: this.canvas.width / 2 - this.heroImage.width / 2,
-      y: this.canvas.height / 2 - this.heroImage.height / 2,
+      x: this.canvas.offsetWidth / 2 - this.heroImage.width / 2,
+      y: this.canvas.offsetHeight / 2 - this.heroImage.height / 2,
     };
   }
 }

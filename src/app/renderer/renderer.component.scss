@@ -1,0 +1,12 @@
+.main-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
+  width: 900px;
+  height: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+  background-color: rgb(66 79 95);
+}
