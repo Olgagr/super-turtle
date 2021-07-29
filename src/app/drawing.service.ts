@@ -3,6 +3,7 @@ import { EditorOutput } from 'src/interfaces/editor-output.interface';
 import { INTERPRETER_COMMANDS } from 'src/interfaces/interpreter-commands.interface';
 import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
 import { Point } from 'src/interfaces/point.interface';
+import { animationStep } from './helpers/utils.helper';
 
 @Injectable()
 export class DrawingService {
@@ -23,10 +24,12 @@ export class DrawingService {
     dimentions: this.heroDimentions,
   };
   private penState: {
-    mode: PEN_MODE,
-    width: number,
-    color: number[]
-  } = {mode: PEN_MODE.ON, width: 1, color: [0,0,0]}
+    mode: PEN_MODE;
+    width: number;
+    color: number[];
+  } = { mode: PEN_MODE.ON, width: 1, color: [0, 0, 0] };
+
+  private requestId: number = 0;
 
   public init(
     canvas: ElementRef<HTMLCanvasElement>,
@@ -42,20 +45,29 @@ export class DrawingService {
 
   public refresh(commands: EditorOutput) {
     if (!this.canvas) return;
+    if (this.requestId) window.cancelAnimationFrame(this.requestId);
     this.resetCanvasState();
-    commands.forEach((command) => {
+    commands.forEach((command, index: number) => {
+      const isLastCommand = index === commands.length - 1;
       switch (command[0]) {
         case INTERPRETER_COMMANDS.CENTER:
           this.moveHeroTo(this.heroAtCenterPoint);
           break;
         case INTERPRETER_COMMANDS.GO:
-          this.moveHeroTo({ x: command[1][0], y: command[1][1] });
+          this.requestId = this.run(isLastCommand, this.moveHeroTo.bind(this), {
+            x: command[1][0],
+            y: command[1][1],
+          });
           break;
         case INTERPRETER_COMMANDS.GOX:
-          this.moveHeroTo({ x: command[1][0] });
+          this.requestId = this.run(isLastCommand, this.moveHeroTo.bind(this), {
+            x: command[1][0],
+          });
           break;
         case INTERPRETER_COMMANDS.GOY:
-          this.moveHeroTo({ y: command[1][0] });
+          this.requestId = this.run(isLastCommand, this.moveHeroTo.bind(this), {
+            y: command[1][0],
+          });
           break;
         case INTERPRETER_COMMANDS.FORWARD:
           this.moveHeroByDistance(command[1][0]);
@@ -89,44 +101,73 @@ export class DrawingService {
     this.clearCanvas();
     this.moveHeroTo(this.heroAtCenterPoint);
     this.heroState.origin = this.heroAtCenterPoint;
-    console.log(this.heroAtCenterPoint)
   }
 
-  private moveHeroTo(point: Partial<Point>) {
+  private run(
+    animate: boolean,
+    callback: (...callbackArgs: any[]) => void,
+    ...args: any[]
+  ) {
+    if (animate) {
+      const step = animationStep(callback, ...args);
+      return window.requestAnimationFrame(step);
+    } else {
+      callback(...args);
+      return 0;
+    }
+  }
+
+  private moveHeroTo(point: Partial<Point>, modifier?: number) {
+    let { x, y } = this.heroState.origin;
+
     if (point.x) {
-      this.heroImage.style.left = `${point.x}px`;
-      this.heroState.origin.x = point.x;
+      x = point.x;
+      if (modifier !== undefined) {
+        if (point.x - this.heroState.origin.x > 0) {
+          x = Math.min(point.x, this.heroState.origin.x + modifier);
+        } else {
+          x = Math.max(point.x, this.heroState.origin.x - modifier);
+        }
+      }
     }
     if (point.y) {
-      this.heroImage.style.top = `${point.y}px`;
-      this.heroState.origin.y = point.y;
+      y = point.y;
+      if (modifier !== undefined) {
+        if (point.y - this.heroState.origin.y > 0) {
+          y = Math.min(point.y, this.heroState.origin.y + modifier);
+        } else {
+          y = Math.max(point.y, this.heroState.origin.y - modifier);
+        }
+      }
     }
+    this.heroImage.style.transform = `translate(${x}px, ${y}px) rotate(${this.heroState.degree}deg)`;
+    this.heroState.origin = { x, y };
   }
 
   private moveHeroByDistance(distance: number) {
     const degree = (Math.PI * (this.heroState.degree - 90)) / 180;
     const x = this.heroState.origin.x + distance * Math.cos(degree);
     const y = this.heroState.origin.y + distance * Math.sin(degree);
-    const previousOrigin = {...this.heroState.origin};
+    const previousOrigin = { ...this.heroState.origin };
     this.moveHeroTo({ x, y });
-    this.drawLine(previousOrigin, {x, y});
+    this.drawLine(previousOrigin, { x, y });
   }
 
   private drawLine(startPoint: Point, endPoint: Point) {
     if (this.penState.mode === PEN_MODE.OFF) return;
-    const [r,g,b] = this.penState.color;
+    const [r, g, b] = this.penState.color;
     this.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
     this.ctx.lineWidth = this.penState.width;
     this.ctx.beginPath();
-    const {w, h} = this.heroState.dimentions;
-    this.ctx.moveTo(startPoint.x + w/2, startPoint.y + h/2);
-    this.ctx.lineTo(endPoint.x + w/2, endPoint.y + h/2);
+    const { w, h } = this.heroState.dimentions;
+    this.ctx.moveTo(startPoint.x + w / 2, startPoint.y + h / 2);
+    this.ctx.lineTo(endPoint.x + w / 2, endPoint.y + h / 2);
     this.ctx.stroke();
   }
 
   private rotateHero(degree: number) {
     this.heroState.degree += degree;
-    this.heroImage.style.transform = `rotate(${this.heroState.degree}deg)`;
+    this.heroImage.style.transform = `translate(${this.heroState.origin.x}px, ${this.heroState.origin.y}px) rotate(${this.heroState.degree}deg)`;
   }
 
   private resetCanvasState() {
@@ -137,7 +178,7 @@ export class DrawingService {
 
   private clearCanvas() {
     this.ctx.fillStyle = 'rgb(255, 255, 255)';
-    this.ctx.fillRect(0 ,0, this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.ctx.fillRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight);
   }
 
   private get heroAtCenterPoint(): Point {
