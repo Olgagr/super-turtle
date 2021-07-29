@@ -6,7 +6,6 @@ import { DrawingService } from '../drawing.service';
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
-  providers: [DrawingService],
 })
 export class CanvasComponent implements AfterViewInit {
   @Input()

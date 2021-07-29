@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { InstructionsParserService } from '../instructions-parser.service';
 import { InstructionsStoreService } from '../instructions-store.service';
 
@@ -9,14 +15,28 @@ import { InstructionsStoreService } from '../instructions-store.service';
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
   public editorControl: FormControl = new FormControl('');
+  private destroySubject$: Subject<boolean> = new Subject();
 
-  constructor(private parserService: InstructionsParserService, private instructionsStoreService: InstructionsStoreService) {}
+  constructor(
+    private parserService: InstructionsParserService,
+    private instructionsStoreService: InstructionsStoreService
+  ) {}
 
   ngOnInit(): void {
     this.editorControl.valueChanges
-      .pipe(debounceTime(800), switchMap(this.parserService.parseEditorOutput))
+      .pipe(
+        debounceTime(800),
+        distinctUntilChanged(),
+        switchMap(this.parserService.parseEditorOutput),
+        takeUntil(this.destroySubject$)
+      )
       .subscribe((v) => this.instructionsStoreService.updateInstructions(v));
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject$.next(true);
+    this.destroySubject$.unsubscribe();
   }
 }

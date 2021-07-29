@@ -1,4 +1,4 @@
-import {INTERPRETER_COMMANDS} from '../../interfaces/interpreter-commands.interface';
+import { INTERPRETER_COMMANDS } from '../../interfaces/interpreter-commands.interface';
 
 export function isValidInstruction(instruction: string): boolean {
   if (!instruction) return false;
@@ -7,8 +7,10 @@ export function isValidInstruction(instruction: string): boolean {
   );
 }
 
-
-export function animationStep(callback: (...args: any[]) => void, ...callbackArgs: any[]) {
+export function animationStep(
+  callback: (...args: any[]) => void,
+  ...callbackArgs: any[]
+) {
   let start: number, previousTimeStamp: number;
   return function step(timestamp: number) {
     if (start === undefined) {
@@ -24,5 +26,5 @@ export function animationStep(callback: (...args: any[]) => void, ...callbackArg
       previousTimeStamp = timestamp;
       window.requestAnimationFrame(step);
     }
-  }
+  };
 }

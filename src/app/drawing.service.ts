@@ -4,8 +4,11 @@ import { INTERPRETER_COMMANDS } from 'src/interfaces/interpreter-commands.interf
 import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
 import { Point } from 'src/interfaces/point.interface';
 import { animationStep } from './helpers/utils.helper';
+import { PenStoreService } from './pen-store.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DrawingService {
   public heroDimentions = {
     w: 40,
@@ -23,13 +26,10 @@ export class DrawingService {
     degree: 0,
     dimentions: this.heroDimentions,
   };
-  private penState: {
-    mode: PEN_MODE;
-    width: number;
-    color: number[];
-  } = { mode: PEN_MODE.ON, width: 1, color: [0, 0, 0] };
 
   private requestId: number = 0;
+
+  constructor(private penStore: PenStoreService) {}
 
   public init(
     canvas: ElementRef<HTMLCanvasElement>,
@@ -82,16 +82,16 @@ export class DrawingService {
           this.rotateHero(command[1][0]);
           break;
         case INTERPRETER_COMMANDS.PEN_DOWN:
-          this.penState.mode = PEN_MODE.ON;
+          this.penStore.penState = { mode: PEN_MODE.ON };
           break;
         case INTERPRETER_COMMANDS.PEN_UP:
-          this.penState.mode = PEN_MODE.OFF;
+          this.penStore.penState = { mode: PEN_MODE.OFF };
           break;
         case INTERPRETER_COMMANDS.PEN_WIDTH:
-          this.penState.width = command[1][0];
+          this.penStore.penState = { width: command[1][0] };
           break;
         case INTERPRETER_COMMANDS.PEN_COLOR:
-          this.penState.color = command[1];
+          this.penStore.penState = { color: command[1] };
           break;
       }
     });
@@ -154,10 +154,10 @@ export class DrawingService {
   }
 
   private drawLine(startPoint: Point, endPoint: Point) {
-    if (this.penState.mode === PEN_MODE.OFF) return;
-    const [r, g, b] = this.penState.color;
-    this.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-    this.ctx.lineWidth = this.penState.width;
+    if (this.penStore.penState.mode === PEN_MODE.OFF) return;
+    const [r, g, b] = this.penStore.penState.color;
+    this.ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+    this.ctx.lineWidth = this.penStore.penState.width;
     this.ctx.beginPath();
     const { w, h } = this.heroState.dimentions;
     this.ctx.moveTo(startPoint.x + w / 2, startPoint.y + h / 2);
