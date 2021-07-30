@@ -8,13 +8,15 @@ import { RendererComponent } from './renderer/renderer.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiRootModule } from '@taiga-ui/core';
+import { ToolBarComponent } from './tool-bar/tool-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditorComponent,
     RendererComponent,
-    CanvasComponent
+    CanvasComponent,
+    ToolBarComponent
   ],
   imports: [
     BrowserModule,

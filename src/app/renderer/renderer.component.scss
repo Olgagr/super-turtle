@@ -3,7 +3,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 0 20px;
   width: 900px;
-  height: 500px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 3px;
@@ -19,9 +18,8 @@
 }
 
 .note {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   text-align: center;
-  opacity: 0.8;
   animation-delay: 0.8s;
 
   &__symbol {

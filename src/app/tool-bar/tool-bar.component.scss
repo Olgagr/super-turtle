@@ -1,0 +1,24 @@
+:host {
+  color: #fff;
+}
+
+.item {
+  display: flex;
+
+  &__name {
+    width: 50px;
+  }
+
+  &__value {
+    padding: 0 10px;
+  }
+}
+
+.colorbox {
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 2px;
+  border: 1px solid rgb(32 41 52);
+}
