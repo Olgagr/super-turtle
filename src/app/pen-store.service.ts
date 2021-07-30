@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
 
 export type penState = {
@@ -30,7 +30,7 @@ export class PenStoreService {
     this.penStateSubject$.next(this._penState);
   }
 
-  get penState$() {
+  get penState$(): Observable<penState> {
     return this.penStateSubject$.asObservable();
   }
 }

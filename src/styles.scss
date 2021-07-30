@@ -10,6 +10,12 @@ body {
   background-color: rgb(32 41 52);
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;

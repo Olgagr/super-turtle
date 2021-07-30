@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TuiRootModule } from '@taiga-ui/core';
 import { AppComponent } from './app.component';
+import { CanvasComponent } from './canvas/canvas.component';
 import { EditorComponent } from './editor/editor.component';
 import { RendererComponent } from './renderer/renderer.component';
-import { CanvasComponent } from './canvas/canvas.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TuiRootModule } from '@taiga-ui/core';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
 
 @NgModule({
@@ -16,15 +15,15 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
     EditorComponent,
     RendererComponent,
     CanvasComponent,
-    ToolBarComponent
+    ToolBarComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     TuiRootModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

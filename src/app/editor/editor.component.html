@@ -1,4 +1,4 @@
 <section>
   <textarea class="editor" [formControl]="editorControl"></textarea>
-  <app-tool-bar></app-tool-bar>
+  <app-tool-bar [penState]="penStoreService.penState$ | async"></app-tool-bar>
 </section>

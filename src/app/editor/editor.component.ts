@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 import { InstructionsParserService } from '../instructions-parser.service';
 import { InstructionsStoreService } from '../instructions-store.service';
+import { PenStoreService } from '../pen-store.service';
 
 @Component({
   selector: 'app-editor',
@@ -21,7 +22,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private parserService: InstructionsParserService,
-    private instructionsStoreService: InstructionsStoreService
+    private instructionsStoreService: InstructionsStoreService,
+    public penStoreService: PenStoreService
   ) {}
 
   ngOnInit(): void {
