@@ -4,9 +4,27 @@
   gap: 0 20px;
   width: 900px;
   height: 500px;
-  margin: 50px auto;
+  margin: 0 auto;
   padding: 20px;
   border-radius: 3px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   background-color: rgb(66 79 95);
+}
+
+.title {
+  color: #fff;
+  font-family: "Bad Script", cursive;
+  text-align: center;
+  animation-delay: 0.5s;
+}
+
+.note {
+  color: #fff;
+  text-align: center;
+  opacity: 0.8;
+  animation-delay: 0.8s;
+
+  &__symbol {
+    color: rgb(208 45 45);
+  }
 }

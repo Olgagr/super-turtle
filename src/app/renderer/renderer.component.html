@@ -1,8 +1,14 @@
-<main class="main-wrapper">
+<h1 class="title animated fadeInUp">Drawing Turtle</h1>
+<main class="main-wrapper animated fadeInUp">
   <article class="">
     <app-editor></app-editor>
   </article>
   <article class="">
-    <app-canvas [instructions]="instructionsStoreService.instructions$ | async"></app-canvas>
+    <app-canvas
+      [instructions]="instructionsStoreService.instructions$ | async"
+    ></app-canvas>
   </article>
 </main>
+<p class="note animated fadeInUp">
+  Made with <span class="note__symbol">♥</span> by Olga Grabek
+</p>

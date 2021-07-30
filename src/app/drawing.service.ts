@@ -158,6 +158,7 @@ export class DrawingService {
     const [r, g, b] = this.penStore.penState.color;
     this.ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
     this.ctx.lineWidth = this.penStore.penState.width;
+    this.ctx.lineCap = 'round';
     this.ctx.beginPath();
     const { w, h } = this.heroState.dimentions;
     this.ctx.moveTo(startPoint.x + w / 2, startPoint.y + h / 2);
