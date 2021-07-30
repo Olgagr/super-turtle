@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TuiRootModule } from '@taiga-ui/core';
 import { AppComponent } from './app.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { EditorComponent } from './editor/editor.component';
@@ -17,12 +16,7 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
     CanvasComponent,
     ToolBarComponent,
   ],
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    TuiRootModule,
-    BrowserAnimationsModule,
-  ],
+  imports: [BrowserModule, ReactiveFormsModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
