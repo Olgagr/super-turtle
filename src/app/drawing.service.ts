@@ -1,8 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { EditorOutput } from 'src/interfaces/editor-output.interface';
-import { INTERPRETER_COMMANDS } from 'src/interfaces/interpreter-commands.interface';
-import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
-import { Point } from 'src/interfaces/point.interface';
+import { EditorOutput } from '../interfaces/editor-output.interface';
+import { INTERPRETER_COMMANDS } from '../interfaces/interpreter-commands.interface';
+import { PEN_MODE } from '../interfaces/pen-mode.interface';
+import { Point } from '../interfaces/point.interface';
 import { animationStep } from './helpers/utils.helper';
 import { PenStoreService } from './pen-store.service';
 

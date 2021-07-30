@@ -1,5 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { EditorOutput } from 'src/interfaces/editor-output.interface';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { EditorOutput } from '../../interfaces/editor-output.interface';
 import { DrawingService } from '../drawing.service';
 
 @Component({
@@ -11,7 +17,7 @@ export class CanvasComponent implements AfterViewInit {
   @Input()
   set instructions(v: EditorOutput | null) {
     if (!v) return;
-    this.drawingService.refresh(v)
+    this.drawingService.refresh(v);
   }
 
   @ViewChild('canvas')

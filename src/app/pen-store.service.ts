@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
+import { PEN_MODE } from '../interfaces/pen-mode.interface';
 
 export type penState = {
   mode: PEN_MODE;

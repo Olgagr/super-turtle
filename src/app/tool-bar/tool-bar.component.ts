@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PEN_MODE } from 'src/interfaces/pen-mode.interface';
+import { PEN_MODE } from '../../interfaces/pen-mode.interface';
 import { penState } from '../pen-store.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { INTERPRETER_COMMANDS } from 'src/interfaces/interpreter-commands.interface';
+import { INTERPRETER_COMMANDS } from '../interfaces/interpreter-commands.interface';
 
 import { InstructionsParserService } from './instructions-parser.service';
 
@@ -13,7 +13,8 @@ fdescribe('InstructionsParserService', () => {
 
   describe('parse', () => {
     it('parses editor instructions', () => {
-      const output = 'Forward 200\nGOX 300\npencoloR    255 ,0 ,255\nnotExistsInstruction 233';
+      const output =
+        'Forward 200\nGOX 300\npencoloR    255 ,0 ,255\nnotExistsInstruction 233';
 
       service.parseEditorOutput(output).subscribe((v) => {
         expect(v).toEqual([
@@ -21,7 +22,7 @@ fdescribe('InstructionsParserService', () => {
           [INTERPRETER_COMMANDS.GOX, [300]],
           [INTERPRETER_COMMANDS.PEN_COLOR, [255, 0, 255]],
         ]);
-      })
+      });
     });
   });
 });
